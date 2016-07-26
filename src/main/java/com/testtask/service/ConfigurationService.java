@@ -10,10 +10,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConfigurationService {
 
-    @Value("${app.board.size}")
-    private int boardSize;
+    @Value("${app.board.rows_number}")
+    private int rowsNumber;
 
-    public int getBoardSize() {
-        return boardSize;
+    @Value("${app.board.columns_number}")
+    private int columnsNumber;
+
+    public int getRowsNumber() {
+        return rowsNumber;
+    }
+
+    public int getColumnsNumber() {
+        return columnsNumber;
     }
 }
