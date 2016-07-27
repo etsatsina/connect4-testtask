@@ -19,25 +19,40 @@ public class GameStateResource {
     @Autowired
     GameService gameService;
 
-    @Autowired
-    PlayerService playerService;
-
     @RequestMapping(value = "/play", method = RequestMethod.POST)
-    public ResponseEntity<Game> saveMove(@RequestParam String playerUsername, @RequestParam int column) {
-        Game resultGame =  playerService.makeMove(playerUsername, column);
-        return new ResponseEntity<>(resultGame, HttpStatus.OK);
+    @ResponseBody
+    public ResponseEntity<Game> saveMove(@RequestParam String username, @RequestParam int column) {
+        Game retrievedGame = gameService.retrieveGame(username);
+        ResponseEntity<Game> response;
+
+        if (retrievedGame == null){
+            response = new ResponseEntity<>(retrievedGame, HttpStatus.BAD_REQUEST);
+        } else {
+            Game resultGame = gameService.saveMove(retrievedGame, username, column);
+            response = new ResponseEntity<>(resultGame, HttpStatus.OK);
+        }
+        return response;
     }
 
     @RequestMapping(value = "/game", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Game> getGame(@RequestParam String username){
+        ResponseEntity<Game> response;
+        Game retrievedGame = gameService.retrieveGame(username);
 
+        if (retrievedGame == null){
+            response = new ResponseEntity<>(retrievedGame, HttpStatus.BAD_REQUEST);
+        } else {
+            response = new ResponseEntity<>(retrievedGame, HttpStatus.OK);
+        }
+
+        return response;
     }
 
     @RequestMapping(value = "/game/create", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Game> newGame(@RequestParam String username){
-        ResponseEntity<Game> response = new ResponseEntity<>(gameService.createGame(username), HttpStatus.OK);
+    public ResponseEntity<Game> newGame(@RequestParam String playerUsername, @RequestParam String opponentUsername){
+        ResponseEntity<Game> response = new ResponseEntity<>(gameService.createGame(playerUsername, opponentUsername), HttpStatus.OK);
 
         return response;
     }

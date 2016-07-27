@@ -1,13 +1,11 @@
 package com.testtask.domain;
 
+import java.util.HashMap;
+
 /**
  * Created by Liza on 25-Jul-16.
  */
 public class Game {
-
-    public final int NONE = 0;
-    public final int PLAYER = 1;
-    public final int OPPONENT = -1;
 
     private int[][] board;
 
@@ -16,6 +14,8 @@ public class Game {
     private String playerUsername;
 
     private String opponentUsername;
+
+    private HashMap<String, Integer> usernameMarkMap;
 
     public enum State {
         PLAYER_WINS, OPPONENT_WINS, DRAW, CONTINUES
@@ -26,6 +26,9 @@ public class Game {
         this.state = state;
         this.playerUsername = playerUsername;
         this.opponentUsername = opponentUsername;
+    }
+
+    public Game() {
     }
 
     public int getRowsNumber() {
@@ -48,4 +51,29 @@ public class Game {
         return 0;
     }
 
+    public void setBoard(int[][] board) {
+        this.board = board;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void setPlayerUsername(String playerUsername) {
+        this.playerUsername = playerUsername;
+    }
+
+    public void setOpponentUsername(String opponentUsername) {
+        this.opponentUsername = opponentUsername;
+    }
+
+    public void setUsernameMarkMap(HashMap<String, Integer> usernameMarkMap) {
+        this.usernameMarkMap = usernameMarkMap;
+    }
+
+    public HashMap<String, Integer> getUsernameMarkMap() {
+        return usernameMarkMap;
+    }
 }
+
+
