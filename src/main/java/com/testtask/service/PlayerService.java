@@ -12,27 +12,21 @@ public class PlayerService {
 
     public boolean makeMove(Game game, String username, int column) {
         int [][] currentBoardState = game.getBoard();
-        boolean successfulMove = false;
         Integer playerMark = game.getUsernameMarkMap().get(username);
 
-        if (isMoveValid(game, column)) {
+        if (! isMoveValid(game, column)) {
             return false;
         }
 
         for (int row = 0; row < game.getRowsNumber() - 1; row++) {
             if (currentBoardState[row][column] == MarkType.NONE) {
                 currentBoardState[row][column] = playerMark;
-                successfulMove = true;
+                return true;
             }
         }
 
-        if (successfulMove) {
-            checkForWinner();
-            return true;
-        }
-        else {
-            return false;
-        }
+        return false;
+
     }
 
     private boolean isMoveValid(Game game, int column) {
@@ -52,9 +46,5 @@ public class PlayerService {
         }
 
         return true;
-    }
-
-    private void checkForWinner() {
-
     }
 }

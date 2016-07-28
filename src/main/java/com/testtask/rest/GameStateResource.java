@@ -2,7 +2,6 @@ package com.testtask.rest;
 
 import com.testtask.domain.Game;
 import com.testtask.service.GameService;
-import com.testtask.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class GameStateResource {
     @RequestMapping(value = "/play", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Game> saveMove(@RequestParam String username, @RequestParam int column) {
-        Game retrievedGame = gameService.retrieveGame(username);
+        Game retrievedGame = gameService.retrieveGame(username, Game.State.CONTINUES);
         ResponseEntity<Game> response;
 
         if (retrievedGame == null){
@@ -31,14 +30,15 @@ public class GameStateResource {
             Game resultGame = gameService.saveMove(retrievedGame, username, column);
             response = new ResponseEntity<>(resultGame, HttpStatus.OK);
         }
+
         return response;
     }
 
-    @RequestMapping(value = "/game", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Game> getGame(@RequestParam String username){
+    public ResponseEntity<Game> getCurrentGame(@RequestParam String username){
         ResponseEntity<Game> response;
-        Game retrievedGame = gameService.retrieveGame(username);
+        Game retrievedGame = gameService.retrieveGame(username, Game.State.CONTINUES);
 
         if (retrievedGame == null){
             response = new ResponseEntity<>(retrievedGame, HttpStatus.BAD_REQUEST);
@@ -46,14 +46,22 @@ public class GameStateResource {
             response = new ResponseEntity<>(retrievedGame, HttpStatus.OK);
         }
 
-        return response;
+       return response;
     }
 
-    @RequestMapping(value = "/game/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Game> newGame(@RequestParam String playerUsername, @RequestParam String opponentUsername){
-        ResponseEntity<Game> response = new ResponseEntity<>(gameService.createGame(playerUsername, opponentUsername), HttpStatus.OK);
+        Game retrievedGameForPlayer = gameService.retrieveGame(playerUsername, Game.State.CONTINUES);
+        Game retrievedGameForOpponent = gameService.retrieveGame(opponentUsername, Game.State.CONTINUES);
+        Game createdGame = null;
 
-        return response;
+        if (retrievedGameForPlayer == null && retrievedGameForOpponent == null){
+            createdGame = gameService.createGame(playerUsername, opponentUsername);
+            return new ResponseEntity<>(createdGame, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(createdGame, HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

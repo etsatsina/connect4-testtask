@@ -1,7 +1,6 @@
 package com.testtask.domain;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GameRepository extends MongoRepository<Game, String> {
 
-    public Game findByPlayerUsernameOrOpponentUsername(String username);
+    public Game findByOpponentUsernameAndState(String opponent, Game.State state);
+
+    public Game findByPlayerUsernameAndState(String player, Game.State state);
+
+    public Game findById(String uuid);
+
 }

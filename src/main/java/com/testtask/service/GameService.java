@@ -6,7 +6,9 @@ import com.testtask.domain.MarkType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Created by Liza on 27-Jul-16.
@@ -23,8 +25,17 @@ public class GameService {
     @Autowired
     PlayerService playerService;
 
-    public Game retrieveGame(String username) {
-        return gameRepository.findByPlayerUsernameOrOpponentUsername(username);
+    @Autowired
+    WinnerCheckService winnerCheckService;
+
+    public Game retrieveGame(String username, Game.State state) {
+        Game retrievedGameForPlayer = gameRepository.findByPlayerUsernameAndState(username, state);
+
+        if (retrievedGameForPlayer == null) {
+            return gameRepository.findByOpponentUsernameAndState(username, state);
+        }
+
+        return retrievedGameForPlayer;
     }
 
     public Game createGame(String playerUsername, String opponentUsername) {
@@ -40,6 +51,7 @@ public class GameService {
         int rowsNumber = configurationService.getRowsNumber();
         int [][] board = new int[columnsNumber][rowsNumber];
 
+        game.setId(generateId());
         game.setBoard(board);
         game.setPlayerUsername(playerUsername);
         game.setOpponentUsername(opponentUsername);
@@ -51,6 +63,7 @@ public class GameService {
         boolean successfulMove = playerService.makeMove(game, username, column);
 
         if (successfulMove) {
+            winnerCheckService.checkAndUpdateWinner(game, column);
             gameRepository.save(game);
         }
 
@@ -68,5 +81,8 @@ public class GameService {
     }
 
 
+    private String generateId() {
+        return UUID.randomUUID().toString();
+    }
 
 }

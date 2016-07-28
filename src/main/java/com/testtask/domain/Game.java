@@ -1,11 +1,18 @@
 package com.testtask.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.HashMap;
 
 /**
  * Created by Liza on 25-Jul-16.
  */
+@Document
 public class Game {
+
+    @Id
+    private String id;
 
     private int[][] board;
 
@@ -73,6 +80,10 @@ public class Game {
 
     public HashMap<String, Integer> getUsernameMarkMap() {
         return usernameMarkMap;
+    }
+
+    public void setId(String uuid) {
+        this.id = uuid;
     }
 }
 
