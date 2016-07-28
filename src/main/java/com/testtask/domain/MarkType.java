@@ -1,7 +1,7 @@
 package com.testtask.domain;
 
 /**
- * Created by Liza on 27-Jul-16.
+ * Created by etsatsina on 27-Jul-16.
  */
 public final class MarkType {
 

@@ -5,7 +5,7 @@ import com.testtask.domain.MarkType;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Liza on 27-Jul-16.
+ * Created by etsatsina on 27-Jul-16.
  */
 @Service
 public class PlayerService {
@@ -26,7 +26,6 @@ public class PlayerService {
         }
 
         return false;
-
     }
 
     private boolean isMoveValid(Game game, int column) {

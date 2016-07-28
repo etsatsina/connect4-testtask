@@ -6,12 +6,11 @@ import com.testtask.domain.MarkType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Created by Liza on 27-Jul-16.
+ * Created by etsatsina on 27-Jul-16.
  */
 @Service
 public class GameService {

@@ -1,11 +1,10 @@
 package com.testtask.service;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Liza on 25-Jul-16.
+ * Created by etsatsina on 25-Jul-16.
  */
 @Service
 public class ConfigurationService {

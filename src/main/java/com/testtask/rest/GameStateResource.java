@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by Liza on 24-Jul-16.
+ * Created by etsatsina on 24-Jul-16.
  */
 
 @RestController

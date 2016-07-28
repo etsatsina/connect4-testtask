@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.HashMap;
 
 /**
- * Created by Liza on 25-Jul-16.
+ * Created by etsatsina on 25-Jul-16.
  */
 @Document
 public class Game {
@@ -72,6 +72,14 @@ public class Game {
 
     public void setOpponentUsername(String opponentUsername) {
         this.opponentUsername = opponentUsername;
+    }
+
+    public String getPlayerUsername() {
+        return playerUsername;
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
     }
 
     public void setUsernameMarkMap(HashMap<String, Integer> usernameMarkMap) {
